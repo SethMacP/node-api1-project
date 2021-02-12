@@ -86,25 +86,18 @@ server.delete("/api/users/:id",  (req , res) => {
         })
 })
 //edit user by id
+//working, no warnings
 server.put("/api/users/:id",(req,res)=>{
-//    console.log(req)
-   console.log(req.params.id);
-   console.log(req.body)
-   //if body has both name and bio, run update:
    if(req.body.name && req.body.bio){
-       //if name & bio are present, update:
-        model.update(req.params.id, req.body)
-        //successful update    
+        model.update(req.params.id, req.body)  
             .then(user => {
                 user
                     ? res.status(200).json(user)
                     : res.status(404).json({message: 'The user with the specified ID does not exist.'})
             })
-        //non-success
             .catch(()=>{
                 res.status(500).json({message: "The user could not be updated." })
             })
-            //if body doesn't have one of these, send the error:
    }else if(req.body.name || req.body.bio){
        res.status(400).json({message: "Please provide name and bio for the user"})
    }
